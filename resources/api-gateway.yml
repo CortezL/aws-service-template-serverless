@@ -1,0 +1,20 @@
+Resources:
+  SharedApiGateway:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: ${self:provider.apiName}
+      Parameters:
+        gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+        gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+
+Outputs:
+  ApigatewayId:
+    Value:
+      Ref: SharedApiGateway
+    Export:
+      Name: ${self:provider.apiName}-${self:provider.environment.moduleName}
+  ApigatewayRootId:
+    Value:
+      "Fn::GetAtt": [ SharedApiGateway, RootResourceId ]
+    Export:
+      Name: sapigateway-rootid-${self:provider.apiName}-${self:provider.environment.moduleName}

@@ -2,7 +2,7 @@ version: '3'
 services:
   node:
     build: .
-    container_name: repo-serverless
+    container_name: service-example
     tty: true
     volumes:
       - .:/app

@@ -1,0 +1,16 @@
+{
+  "name": "layer-world",
+  "version": "1.0.0",
+  "description": "",
+  "main": "middy/layer.js",
+  "scripts": {
+    "deploy": "node ./node_modules/serverless/bin/serverless deploy --verbose --stage dev --accountDeploy dev",
+    "install-middy": "./install-middy-dependencies.sh"
+  },
+  "keywords": [],
+  "author": "lucas.cortez",
+  "license": "ISC",
+  "dependencies": {
+    "serverless": "^2.66.2"
+  }
+}

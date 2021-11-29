@@ -1,0 +1,20 @@
+service: layer-MiddyDependencies-World
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+
+  accountDeploy: ${opt:accountDeploy, 'dev'}
+
+  deploymentBucket:
+    name: ${file(./serverless-env-${self:provider.accountDeploy}.yml):deploymentBucket}
+
+layers:
+  MiddyDependenciesWorld:
+    path: ./middy
+    name: MiddyDependencyWord-${self:provider.stage}
+    description: "Dependency"
+    compatibleRuntimes:
+      - ${self:provider.runtime}

@@ -1,0 +1,43 @@
+service: ${self:provider.apiName}-${self:provider.moduloName}-${self:provider.stackName}
+
+frameworkVersion: ">=1.0.0 <=2.66.2"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: ${opt:stage, self:provider.stage, 'dev'}
+  region: us-east-1
+  memorySize: 128
+  timeout: 30
+  endpointType: EDGE
+
+  apiName: api-lc
+  moduloName: hello
+  stackName: ${self:provider.apiName}-${self:provider.moduloName}-service
+
+  deploymentBucket:
+    name: ${file(./serverless-env-${opt:accountDeploy, 'dev'}.yml):deploymentBucket}
+
+  lambdaHashingVersion: 20200924
+
+  environment:
+    NODE_PATH: './:/opt/node_modules'
+
+custom:
+  logRetentionInDays: 7
+
+functions:
+  hello:
+    handler: handlers/handler.hello
+    description: Submit candidate information and starts interview process.
+    events:
+      - http:
+          path: ${self:provider.moduloName}
+          method: post
+          integration: lambda
+
+plugins:
+  - 'serverless-plugin-log-retention'
+  - 'serverless-latest-layer-version'
+  - 'serverless-pseudo-parameters-imp'
+  - 'engine-serverless'
